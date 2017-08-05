@@ -116,7 +116,7 @@ VX_API_ENTRY vx_status VX_API_CALL vxGetContextImageFormatDescription(vx_context
 	if (agoIsValidContext(context)) {
 		status = VX_ERROR_INVALID_FORMAT;
 		vx_uint32 pixelSizeInBitsNum, pixelSizeInBitsDenom;
-		if (desc->planes == 1 && !agoGetImageComponentsAndPlanes(context, format, &desc->components, &desc->planes, &pixelSizeInBitsNum, &pixelSizeInBitsDenom, &desc->colorSpace, &desc->channelRange)) {
+		if (!agoGetImageComponentsAndPlanes(context, format, &desc->components, &desc->planes, &pixelSizeInBitsNum, &pixelSizeInBitsDenom, &desc->colorSpace, &desc->channelRange)) {
 			desc->pixelSizeInBitsNum = pixelSizeInBitsNum;
 			desc->pixelSizeInBitsDenom = pixelSizeInBitsDenom;
 			status = VX_SUCCESS;
@@ -1725,8 +1725,8 @@ VX_API_ENTRY vx_status VX_API_CALL vxUnmapImagePatch(vx_image image_, vx_map_id 
 * The function supports only channels that occupy an entire plane of a multi-planar
 * images, as listed below. Other cases are not supported.
 *     VX_CHANNEL_Y from YUV4, IYUV, NV12, NV21
-*     VX_CHANNEL_U from YUV4, IYUV
-*     VX_CHANNEL_V from YUV4, IYUV
+*     VX_CHANNEL_U from YUV4, IYUV, NV12, NV21
+*     VX_CHANNEL_V from YUV4, IYUV, NV12, NV21
 *
 * \param [in] img          The reference to the parent image.
 * \param [in] channel      The <tt>\ref vx_channel_e</tt> channel to use.
@@ -1747,13 +1747,17 @@ VX_API_ENTRY vx_image VX_API_CALL vxCreateImageFromChannel(vx_image img, vx_enum
 			{
 				subImage = image->children[0];
 			}
-			else if (channel == VX_CHANNEL_U && (image->u.img.format == VX_DF_IMAGE_YUV4 || image->u.img.format == VX_DF_IMAGE_IYUV))
+			else if (channel == VX_CHANNEL_U && (image->u.img.format == VX_DF_IMAGE_YUV4 || image->u.img.format == VX_DF_IMAGE_IYUV || image->u.img.format == VX_DF_IMAGE_NV12 || image->u.img.format == VX_DF_IMAGE_NV21))
 			{
 				subImage = image->children[1];
 			}
 			else if (channel == VX_CHANNEL_V && (image->u.img.format == VX_DF_IMAGE_YUV4 || image->u.img.format == VX_DF_IMAGE_IYUV))
 			{
 				subImage = image->children[2];
+			}
+			else if (channel == VX_CHANNEL_V && (image->u.img.format == VX_DF_IMAGE_NV12 || image->u.img.format == VX_DF_IMAGE_NV21))
+			{
+				subImage = image->children[1];
 			}
 		}
 	}
