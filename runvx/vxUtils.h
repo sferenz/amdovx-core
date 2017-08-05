@@ -172,7 +172,7 @@ void ComputeChecksum(char checkSumString[64], vx_image image, vx_rectangle_t * r
 // compare rectangular region specified within an image and return number of pixels mismatching
 size_t CompareImage(vx_image image, vx_rectangle_t * rectRegion, vx_uint8 * refImage, float errLimitMin, float errLimitMax, int frameNumber, const char * fileNameRef);
 //Get Image Width in Bytes from Image
-inline vx_size CalculateImageWidthInBytes(vx_image image);
+vx_size CalculateImageWidthInBytes(vx_image image);
 // read image
 int ReadImage(vx_image image, vx_rectangle_t * rectFull, FILE * fp);
 // write image

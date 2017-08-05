@@ -482,7 +482,7 @@ size_t CompareImage(vx_image image, vx_rectangle_t * rectRegion, vx_uint8 * refI
 }
 
 //Get Image Width in Bytes from Image
-inline vx_size CalculateImageWidthInBytes(vx_image image)
+vx_size CalculateImageWidthInBytes(vx_image image)
 {
 	AgoImageFormatDescription format_description;
 	vx_context context = vxGetContext((vx_reference)image);
