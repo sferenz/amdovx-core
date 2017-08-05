@@ -203,7 +203,7 @@ enum vx_memory_type_amd_e {
 */
 enum vx_color_space_amd_e {
 	/*! \brief Use to indicate that the BT.2020 coefficients are used for conversions. */
-	VX_COLOR_SPACE_BT2020 = VX_ENUM_BASE(VX_ID_KHRONOS, VX_ENUM_COLOR_SPACE) + 0x4,
+	VX_COLOR_SPACE_BT2020 = VX_ENUM_BASE(VX_ID_AMD, VX_ENUM_COLOR_SPACE) + 0x1,
 };
 
 /*! \brief Based on the VX_DF_IMAGE definition.
