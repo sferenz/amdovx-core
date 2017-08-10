@@ -636,9 +636,8 @@ int CVxParamImage::Finalize()
 		if (vxAccessImagePatch(m_image, &m_rectFull, plane, &addr, (void **)&dst, VX_READ_ONLY) == VX_SUCCESS) {
 			vx_size width = (addr.dim_x * addr.scale_x) / VX_SCALE_UNITY;
 			vx_size height = (addr.dim_y * addr.scale_y) / VX_SCALE_UNITY;
-			if (addr.stride_x != 0) {
+			if (addr.stride_x != 0)
 				width_in_bytes = (width * addr.stride_x);
-			}
 			m_frameSize += width_in_bytes * height;
 			ERROR_CHECK(vxCommitImagePatch(m_image, &m_rectFull, plane, &addr, (void *)dst));
 		}

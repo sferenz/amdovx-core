@@ -499,7 +499,7 @@ size_t CompareImage(vx_image image, vx_rectangle_t * rectRegion, vx_uint8 * refI
 	return errorPixelCountTotal;
 }
 
-//Get Image Width in Bytes from Image
+// get image width in bytes from image
 vx_size CalculateImageWidthInBytes(vx_image image)
 {
 	AgoImageFormatDescription format_description;
@@ -522,14 +522,13 @@ int ReadImage(vx_image image, vx_rectangle_t * rectFull, FILE * fp)
 	vx_size width_in_bytes = (num_planes == 1) ? CalculateImageWidthInBytes(image) : 0;
 	// read all image planes into vx_image and check if EOF has occured while reading
 	bool eofDetected = false;
-	for (vx_uint32 plane = 0; plane < (vx_uint32)num_planes; plane++){
+	for (vx_uint32 plane = 0; plane < (vx_uint32)num_planes; plane++) {
 		vx_imagepatch_addressing_t addr;
 		vx_uint8 * src = NULL;
 		ERROR_CHECK(vxAccessImagePatch(image, rectFull, plane, &addr, (void **)&src, VX_WRITE_ONLY));
 		vx_size width = (addr.dim_x * addr.scale_x) / VX_SCALE_UNITY;
-		if (addr.stride_x != 0) {
+		if (addr.stride_x != 0)
 			width_in_bytes = (width * addr.stride_x);
-		}
 		for (vx_uint32 y = 0; y < addr.dim_y; y += addr.step_y){
 			vx_uint8 *srcp = (vx_uint8 *)vxFormatImagePatchAddress2d(src, 0, y, &addr);
 			if (fread(srcp, 1, width_in_bytes, fp) != width_in_bytes) {
@@ -557,9 +556,8 @@ int WriteImage(vx_image image, vx_rectangle_t * rectFull, FILE * fp)
 		vx_uint8 * src = NULL;
 		ERROR_CHECK(vxAccessImagePatch(image, rectFull, plane, &addr, (void **)&src, VX_READ_ONLY));
 		vx_size width = (addr.dim_x * addr.scale_x) / VX_SCALE_UNITY;
-		if (addr.stride_x != 0) {
+		if (addr.stride_x != 0)
 			width_in_bytes = (width * addr.stride_x);
-		}
 		for (vx_uint32 y = 0; y < addr.dim_y; y += addr.step_y){
 			vx_uint8 *srcp = (vx_uint8 *)vxFormatImagePatchAddress2d(src, 0, y, &addr);
 			fwrite(srcp, 1, width_in_bytes, fp);

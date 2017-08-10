@@ -1747,7 +1747,7 @@ VX_API_ENTRY vx_image VX_API_CALL vxCreateImageFromChannel(vx_image img, vx_enum
 			{
 				subImage = image->children[0];
 			}
-			else if (channel == VX_CHANNEL_U && (image->u.img.format == VX_DF_IMAGE_YUV4 || image->u.img.format == VX_DF_IMAGE_IYUV || image->u.img.format == VX_DF_IMAGE_NV12 || image->u.img.format == VX_DF_IMAGE_NV21))
+			else if (channel == VX_CHANNEL_U && (image->u.img.format == VX_DF_IMAGE_YUV4 || image->u.img.format == VX_DF_IMAGE_IYUV))
 			{
 				subImage = image->children[1];
 			}
@@ -1755,7 +1755,7 @@ VX_API_ENTRY vx_image VX_API_CALL vxCreateImageFromChannel(vx_image img, vx_enum
 			{
 				subImage = image->children[2];
 			}
-			else if (channel == VX_CHANNEL_V && (image->u.img.format == VX_DF_IMAGE_NV12 || image->u.img.format == VX_DF_IMAGE_NV21))
+			else if ((channel == VX_CHANNEL_U || channel == VX_CHANNEL_V) && (image->u.img.format == VX_DF_IMAGE_NV12 || image->u.img.format == VX_DF_IMAGE_NV21))
 			{
 				subImage = image->children[1];
 			}
